@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Registration</title>
+</head>
+<body>
+  <h1>Register User</h1>
+  <form id="userForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required><br><br>
+    
+    <label for="address">Address:</label>
+    <input type="text" id="address" name="address" required><br><br>
+    
+    <button type="submit">Submit</button>
+  </form>
+  
+  <p id="message"></p> <!-- Display success message here -->
+
+  <script>
+    // Add a submit event listener for the form
+    document.getElementById('userForm').addEventListener('submit', async function (event) {
+      event.preventDefault(); // Prevent default form submission
+
+      // Get the form data
+      const name = document.getElementById('name').value;
+      const address = document.getElementById('address').value;
+
+      // Send the form data to the backend using Fetch API
+      const response = await fetch('/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, address })
+      });
+
+      const result = await response.json();
+      
+      // Display the success message
+      document.getElementById('message').textContent = result.message;
+
+      //Clear the input after submissin
+      document.getElementById('userForm').reset();
+    });
+  </script>
+</body>
+</html>
